@@ -1,0 +1,18 @@
+{
+  "name": "B",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "start": "react-native start"
+  },
+  "dependencies": {
+    "react-native": "^0.17.0",
+    "react-redux": "^4.0.3",
+    "redux": "^3.0.5"
+  },
+  "devDependencies": {
+    "redux-devtools": "^3.0.0",
+    "redux-devtools-dock-monitor": "^1.0.1",
+    "redux-devtools-log-monitor": "^1.0.1"
+  }
+}
