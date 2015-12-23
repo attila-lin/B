@@ -2,6 +2,8 @@
 
 var React = require('react-native');
 
+var TimerMixin = require('react-timer-mixin');
+
 var {
   AppRegistry,
   StyleSheet,
@@ -12,23 +14,80 @@ var {
   View,
 } = React;
 
+// var HomeScreen = require('./HomeScreen');
+var SaveAccount = require('./SaveAccount');
+var Result = require('./Result');
+
+
+var RouteMapper = function(route, navigationOperations, onComponentRef){
+  navigator = navigationOperations;
+  console.log("nani?");
+  if(route.name === 'home'){
+    console.log("home");
+    return <SaveAccount navigator={navigationOperations} />;
+  }
+  else if(route.name === 'result')
+  {
+    console.log("result");
+    return <Result navigator={navigationOperations} />;
+  }
+  // else if(route.name === 'account'){
+  //   return <DetailScreen
+  //             navigator={navigationOperations}
+  //             movie={route.movie}
+  //             title={route.title}/>
+  // }
+};
+
 
 var BApp = React.createClass({
-  render: function() {
-    return (
-      <View style={styles.container}>
-        <Text style={styles.welcome}>
-          Welcome to React Native!
-        </Text>
-        <Text style={styles.instructions}>
-          To get started, edit index.ios.js
-        </Text>
-        <Text style={styles.instructions}>
-          Press Cmd+R to reload,{'\n'}
-          Cmd+D or shake for dev menu
-        </Text>
-      </View>
+  mixins: [TimerMixin],
+
+  getInitialState: function() {
+     return {
+        splashed: false,
+     };
+  },
+
+  componentDidMount: function() {
+    this.setTimeout(
+      () => {
+        this.setState({splashed: true});
+      },
+      500,
     );
+  },
+
+  render: function() {
+    var initialRoute = {name: 'home'};
+
+    if(this.state.splashed){
+      console.log("heheh");
+      // return ( < SaveAccount /> );
+
+      return (
+       <Navigator
+          // style = {styles.container}
+          initialRoute = {initialRoute}
+          configureScreen = {(route) => Navigator.SceneConfigs.FloatFromRight}
+          renderScene={RouteMapper} />
+      );
+
+      // return ( < HomeScreen > );
+      // return (
+      //   <View style={styles.container}>
+      //     <Text style={styles.welcome}>hahahahha </Text>
+      //   </View>
+      // );
+    }
+    else{
+      console.log("hahah~~~~~~~~");
+      return (
+        <View style={styles.container}>
+          <Text style={styles.welcome}>图书管理</Text>
+        </View>
+      );
+    }
   }
 });
 
@@ -37,17 +96,12 @@ var styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#F5FCFF',
+    backgroundColor: '#0b250e',
   },
   welcome: {
     fontSize: 20,
     textAlign: 'center',
     margin: 10,
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
   },
 });
 
