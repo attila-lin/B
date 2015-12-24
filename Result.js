@@ -13,6 +13,7 @@ var {
   TouchableHighlight,
   Image,
 } = React;
+var BarCode = require("./BarCode");
 
 var Result = React.createClass({
 
@@ -29,9 +30,9 @@ var Result = React.createClass({
   // },
 
   _onPressButton: function() {
-    console.log("1111");
     this.props.navigator.push({
-        name: 'barcode'
+        title: '扫描条形码',
+        component: BarCode,
     });
   },
 
@@ -54,6 +55,7 @@ var styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: 'white',
+    marginTop: 64,
   },
   welcome: {
     fontSize: 20,

@@ -4,14 +4,18 @@ var {
   StyleSheet,
   Text,
   View,
-  TouchableHighlight
+  TouchableHighlight,
+  AlertIOS,
 } = React;
 var Camera = require('react-native-camera');
+
+var Detail = require("./Detail");
 
 var BarCode = React.createClass({
   getInitialState() {
     return {
-      cameraType: Camera.constants.Type.back
+      cameraType: Camera.constants.Type.back,
+      hasRead: false,
     }
   },
 
@@ -41,7 +45,32 @@ var BarCode = React.createClass({
     );
   },
   _onBarCodeRead(e) {
+    if(this.state.hasRead)
+      return;
+
     console.log(e);
+    console.log(typeof e);
+    console.log(e.data);
+    var isbn = e.data;
+    this.state.hasRead = true;
+
+    AlertIOS.alert(
+      'Bar Button Action',
+      'Recognized a tap on the bar button icon',
+      [
+        {
+          text: isbn,
+          onPress: () => console.log('Tapped OK'),
+        },
+      ]
+    );
+    // if(this.props.navigator.name === 'barcode'){
+      this.props.navigator.push({
+          title: '书籍详情',
+          component: Detail,
+          passProps: {isbn: isbn},
+      });
+    // }
   },
   _switchCamera() {
     var state = this.state;
@@ -63,6 +92,7 @@ var styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: 'transparent',
+    marginTop: 64,
   },
   welcome: {
     fontSize: 20,

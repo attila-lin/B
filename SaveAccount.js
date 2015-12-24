@@ -3,6 +3,8 @@
 var React = require('react-native');
 var md5 = require('md5');
 
+var Result = require('./Result');
+
 var {
     View,
     StyleSheet,
@@ -23,10 +25,11 @@ var BODY_CONST = "_json=true&callback=https%3A%2F%2Faccount.xiaomi.com%2Fsts%3Fs
 var SaveAccount = React.createClass({
 
   getInitialState: function() {
-     return {
-        account: "账号",
-        passwd: "密码"
-     };
+    console.log("SaveAccount");
+    return {
+      account: "账号",
+      passwd: "密码",
+    };
   },
 
   _onPressButton: function() {
@@ -65,12 +68,12 @@ var SaveAccount = React.createClass({
     // })
     .done();
 
-
-    // console.log(this.props.navigator);
     if (this.props.navigator) {
       this.props.navigator.pop();
       this.props.navigator.push({
-          name: 'result'
+          title: 'Result',
+          component: Result,
+          passProps: {  }
       });
     }
   },
@@ -101,33 +104,26 @@ var SaveAccount = React.createClass({
 
 var styles = StyleSheet.create({
     container: {
-      flex: 1,
-      backgroundColor: 'white',
+      marginTop: 64,
+      justifyContent: 'center',
+      alignItems: 'center',
+      backgroundColor: '#F5FCFF',
     },
 
     textInput:{
-      height: 40,
+      height: 50,
       borderColor: 'gray',
-      borderWidth: 1
-    },
-
-    rowSplitLine: {
-      height: 1,
-      backgroundColor: '#e5e5e5',
-      marginLeft: 20,
-      marginRight: 20,
+      borderWidth: 1,
     },
 
     button: {
       height: 36,
-      flex: 1,
-      flexDirection: 'row',
+      width: 40,
       backgroundColor: '#48BBEC',
       borderColor: '#48BBEC',
       borderWidth: 1,
       borderRadius: 8,
       marginBottom: 10,
-      alignSelf: 'stretch',
       justifyContent: 'center'
     },
 });

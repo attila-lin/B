@@ -8,7 +8,7 @@ var {
   AppRegistry,
   StyleSheet,
   BackAndroid,
-  Navigator,
+  NavigatorIOS,
   ToolBarAndroid,
   Text,
   View,
@@ -18,32 +18,38 @@ var {
 var SaveAccount = require('./SaveAccount');
 var Result = require('./Result');
 var BarCode = require('./BarCode');
+var Detail = require('./Detail');
 
 
-var RouteMapper = function(route, navigationOperations, onComponentRef){
-  navigator = navigationOperations;
-  console.log("nani?");
-  if(route.name === 'home'){
-    console.log("home");
-    return <SaveAccount navigator={navigationOperations} />;
-  }
-  else if(route.name === 'result')
-  {
-    console.log("result");
-    return <Result navigator={navigationOperations} />;
-  }
-  else if(route.name === 'barcode')
-  {
-    console.log("barcode");
-    return <BarCode navigator={navigationOperations} />;
-  }
-  // else if(route.name === 'account'){
-  //   return <DetailScreen
-  //             navigator={navigationOperations}
-  //             movie={route.movie}
-  //             title={route.title}/>
-  // }
-};
+// var RouteMapper = function(route, navigationOperations, onComponentRef){
+//   navigator = navigationOperations;
+//   console.log("nani?");
+//   if(route.name === 'home'){
+//     console.log("home");
+//     return <SaveAccount navigator={navigationOperations} />;
+//   }
+//   else if(route.name === 'result')
+//   {
+//     console.log("result");
+//     return <Result navigator={navigationOperations} />;
+//   }
+//   else if(route.name === 'barcode')
+//   {
+//     console.log("barcode");
+//     return <BarCode navigator={navigationOperations} />;
+//   }
+//   else if(route.name === 'detail')
+//   {
+//     console.log("detail");
+//     return <Detail navigator={navigationOperations} />;
+//   }
+//   // else if(route.name === 'account'){
+//   //   return <DetailScreen
+//   //             navigator={navigationOperations}
+//   //             movie={route.movie}
+//   //             title={route.title}/>
+//   // }
+// };
 
 
 var BApp = React.createClass({
@@ -65,29 +71,21 @@ var BApp = React.createClass({
   },
 
   render: function() {
-    var initialRoute = {name: 'home'};
+    var initialRoute = {
+      title: '设置账号',
+      component: SaveAccount,
+      backButtonTitle: 'Custom Back',
+    };
 
     if(this.state.splashed){
-      console.log("heheh");
-      // return ( < SaveAccount /> );
-
       return (
-       <Navigator
-          // style = {styles.container}
-          initialRoute = {initialRoute}
-          configureScreen = {(route) => Navigator.SceneConfigs.FloatFromRight}
-          renderScene={RouteMapper} />
+       <NavigatorIOS
+         style={styles.nav}
+         initialRoute = {initialRoute}
+       />
       );
-
-      // return ( < HomeScreen > );
-      // return (
-      //   <View style={styles.container}>
-      //     <Text style={styles.welcome}>hahahahha </Text>
-      //   </View>
-      // );
     }
     else{
-      console.log("hahah~~~~~~~~");
       return (
         <View style={styles.container}>
           <Text style={styles.welcome}>图书管理</Text>
@@ -98,11 +96,14 @@ var BApp = React.createClass({
 });
 
 var styles = StyleSheet.create({
+  nav: {
+    flex: 1,
+  },
   container: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#0b250e',
+    backgroundColor: '#3cb53a',
   },
   welcome: {
     fontSize: 20,
