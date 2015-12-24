@@ -17,6 +17,7 @@ var {
 // var HomeScreen = require('./HomeScreen');
 var SaveAccount = require('./SaveAccount');
 var Result = require('./Result');
+var BarCode = require('./BarCode');
 
 
 var RouteMapper = function(route, navigationOperations, onComponentRef){
@@ -30,6 +31,11 @@ var RouteMapper = function(route, navigationOperations, onComponentRef){
   {
     console.log("result");
     return <Result navigator={navigationOperations} />;
+  }
+  else if(route.name === 'barcode')
+  {
+    console.log("barcode");
+    return <BarCode navigator={navigationOperations} />;
   }
   // else if(route.name === 'account'){
   //   return <DetailScreen
