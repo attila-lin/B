@@ -20,6 +20,13 @@ var BarCode = React.createClass({
     }
   },
 
+  _onLeftButtonPress : function()
+  {
+    console.log("_onLeftButtonPress");
+    this.setState({hasRead:false});
+    this.props.navigator.pop();
+  },
+
   render() {
 
     return (
@@ -63,18 +70,14 @@ var BarCode = React.createClass({
     //     },
     //   ]
     // );
-    var _onLeftButtonPress = function()
-    {
-      console.log("_onLeftButtonPress");
-      this.setState({hasRead:false});
-      this.props.navigator.pop();
-    };
+
 
     this.props.navigator.push({
         title: '书籍详情',
         component: Detail,
         passProps: {isbn: isbn},
-        onLeftButtonPress: () => _onLeftButtonPress(),
+        leftButtonTitle: "扫码",
+        onLeftButtonPress: () => this._onLeftButtonPress(),
     });
   },
   _switchCamera() {

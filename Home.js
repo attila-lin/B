@@ -39,9 +39,9 @@ var Home = React.createClass({
 
   getInitialState: function() {
 
-    console.log("this.props.doubanBookJsonStr", this.props.doubanBookJsonStr);
-    console.log("this.props.duokanBookJsonStr", this.props.duokanBookJsonStr);
-    console.log("this.props.shitiBookJsonStr", this.props.shitiBookJsonStr);
+    //console.log("this.props.doubanBookJsonStr", this.props.doubanBookJsonStr);
+    //console.log("this.props.duokanBookJsonStr", this.props.duokanBookJsonStr);
+    //console.log("this.props.shitiBookJsonStr", this.props.shitiBookJsonStr);
 
     var stJson;
     if(this.props.shitiBookJsonStr === undefined)
@@ -104,6 +104,8 @@ var Home = React.createClass({
     this.props.navigator.push({
       title: '扫描条形码',
       component: BarCode,
+      // leftButtonTitle:"主页",
+      // onLeftButtonPress: () => console.log("hehhe") ,
     });
   },
 
