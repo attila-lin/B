@@ -22,19 +22,53 @@ var {
 
 var REQUEST_URL = "http://www.duokan.com/store/v0/payment/book/list";
 
+var Common = require('./Common');
 
 var Home = React.createClass({
+
+  _getAllBooks: function(dbJson, dkJson)
+  {
+    var allBook = {
+      count: 0,
+      items: [],
+    };
+    allBook.count = dbJson.count + dkJson.count;
+    allBook.items = dbJson.items.concat(dkJson.items);
+    return allBook;
+  },
+
   getInitialState: function() {
 
-    // console.log(this.props.bookJson);
+    console.log("this.props.doubanBookJsonStr", this.props.doubanBookJsonStr);
+    console.log("this.props.duokanBookJsonStr", this.props.duokanBookJsonStr);
 
-    var bookJson = JSON.parse(this.props.bookJson);
+    var dbJson;
+    if(this.props.doubanBookJsonStr === undefined)
+      dbJson = {
+        count: 0,
+        items: [],
+      };
+    else{
+      dbJson = JSON.parse(this.props.doubanBookJsonStr);
+    }
+
+    var dkJson;
+    if(this.props.doubanBookJsonStr === undefined)
+      dkJson = {
+        count: 0,
+        items: [],
+      };
+    else{
+      dkJson = JSON.parse(this.props.duokanBookJsonStr);
+    }
+
+    var allBook = this._getAllBooks(dbJson, dkJson);
 
     var dataSource = new ListView.DataSource({
       rowHasChanged: (row1, row2) => row1 !== row2,
     });
 
-    var items = bookJson.items;
+    var items = allBook.items;
 
     var itemsArray = [];
     for(var x in items){
@@ -44,7 +78,7 @@ var Home = React.createClass({
     dataSource = dataSource.cloneWithRows(itemsArray);
 
     return({
-      bookJson: bookJson,
+      allBook: allBook,
       dataSource: dataSource,
       loading: false,
     });
@@ -60,10 +94,18 @@ var Home = React.createClass({
   },
 
   _onLoginDuokan: function() {
-    var SaveAccount = require('./SaveAccount');
+    var DuokanAccount = require('./DuokanAccount');
+    this.props.navigator.push({
+      title: '',
+      component: DuokanAccount,
+    });
+  },
+
+  _onLoginDouban: function() {
+    var DoubanAccount = require('./DoubanAccount');
     this.props.navigator.push({
       title: '登陆账号',
-      component: SaveAccount,
+      component: DoubanAccount,
     });
   },
 
@@ -87,7 +129,7 @@ var Home = React.createClass({
 
     return (
       <View style={styles.container}>
-        <Text style={styles.welcome}>搜到{this.state.bookJson.count}本书</Text>
+        <Text style={styles.welcome}>搜到{this.state.allBook.count}本书</Text>
         <ListView
           dataSource={this.state.dataSource}
           renderRow={this.renderBook}
@@ -101,6 +143,11 @@ var Home = React.createClass({
         <TouchableHighlight onPress={this._onLoginDuokan}>
           <Image style={styles.button}>
             <Text>登录多看</Text>
+          </Image>
+        </TouchableHighlight>
+        <TouchableHighlight onPress={this._onLoginDouban}>
+          <Image style={styles.button}>
+            <Text>登录豆瓣</Text>
           </Image>
         </TouchableHighlight>
 
@@ -143,19 +190,17 @@ var styles = StyleSheet.create({
     margin: 10,
   },
   button: {
-    height: 36,
-    flex: 1,
+    height: 20,
     flexDirection: 'row',
     backgroundColor: '#48BBEC',
     borderColor: '#48BBEC',
     borderWidth: 1,
     borderRadius: 8,
-    marginBottom: 10,
     alignSelf: 'stretch',
-    justifyContent: 'center'
+    justifyContent: 'center',
+    width: 80,
   },
   listView: {
-    paddingTop: 20,
     backgroundColor: '#F5FCFF',
   },
   thumbnail: {

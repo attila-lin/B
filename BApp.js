@@ -3,7 +3,6 @@
 var React = require('react-native');
 var RNFS = require('react-native-fs');
 
-// import Home from './Home';
 var Home = require('./Home');
 
 var TimerMixin = require('react-timer-mixin');
@@ -19,50 +18,70 @@ var {
   AsyncStorage,
 } = React;
 
+
+var Common = require('./Common');
+
 var BApp = React.createClass({
   mixins: [TimerMixin],
+
+  _gotoHome: function()
+  {
+    this.setState({
+      initialRoute: {
+        title: '主页',
+        component: Home,
+        passProps: {
+          doubanBookJsonStr: this.state.doubanBookJsonStr,
+          duokanBookJsonStr: this.state.duokanBookJsonStr,
+        },
+      },
+    });
+  },
+
+  _getEmptyBookJson:function()
+  {
+    var emptyJson = {
+      count: 0,
+      items: [],
+    };
+
+    return JSON.stringify(emptyJson);
+  },
+
+  _dkcallback : function(contents){
+    console.log("_dkcallback");
+    if(contents == null)
+      this.setState({duokanBookJsonStr: _getEmptyBookJson()});
+    this.setState({duokanBookJsonStr: contents});
+
+    if(this.state.doubanBookJsonStr != null)
+      this._gotoHome();
+  },
+
+  _dbcallback: function(contents){
+    if(contents == null)
+      this.setState({doubanBookJsonStr: _getEmptyBookJson()});
+    this.setState({doubanBookJsonStr: contents});
+
+    if(this.state.duokanBookJsonStr != null)
+      this._gotoHome();
+  },
 
   getInitialState: function() {
 
     var initialRoute = {
-      title: '登陆账号',
+      title: '主页',
       component: Home,
     };
 
-    RNFS.readDir(RNFS.DocumentDirectoryPath)
-    .then((result) => {
-      for (var i = 0; i < result.length; i++) {
-        if(result[i].name === "doubanBooks.txt"){
-          return Promise.all([RNFS.stat(result[i].path), result[i].path]);
-        }
-      }
-    })
-    .then((statResult) => {
-      if (statResult[0].isFile()) {
-        // if we have a file, read it
-        return RNFS.readFile(statResult[1], 'utf8');
-      }
-      return 'no file';
-    })
-    .then((contents) => {
-      // log the file contents
-      // console.log("contents", contents);
-      this.setState({
-        initialRoute: {
-          title: '主页',
-          component: Home,
-          passProps: {bookJson: contents},
-        },
-      });
-
-    })
-    .catch((err) => {
-      console.log(err.message, err.code);
-    });
+    Common.ReadFile(Common.DUOKAN_BOOKS_JSON_NAME, this._dkcallback);
+    Common.ReadFile(Common.DOUBAN_BOOKS_JSON_NAME, this._dbcallback);
 
     return {
         initialRoute: initialRoute,
         splashed: false,
+        doubanBookJsonStr: null,
+        duokanBookJsonStr: null,
     };
 
   },
@@ -72,7 +91,7 @@ var BApp = React.createClass({
       () => {
         this.setState({splashed: true});
       },
-      500,
+      2000,
     );
   },
 
