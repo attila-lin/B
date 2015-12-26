@@ -3,7 +3,7 @@
 var React = require('react-native');
 var md5 = require('md5');
 
-var Result = require('./Result');
+var RNFS = require('react-native-fs');
 
 var {
     View,
@@ -31,7 +31,7 @@ var GET_URL = "https://account.xiaomi.com/pass/serviceLogin?callback=http%3A%2F%
 var SaveAccount = React.createClass({
 
   getInitialState: function() {
-
+    console.log("SaveAccount");
     return {
       url: GET_URL,
       account: "账号",
@@ -49,12 +49,21 @@ var SaveAccount = React.createClass({
   {
     // console.log(JSON.parse(response._bodyInit));
     this.setState({bookJson : JSON.parse(response._bodyInit)});
+
+    // AsyncStorage.setItem("doubanBooks",this.state.bookJson.toString());
+    // create a path you want to write to
+    var path = RNFS.DocumentDirectoryPath + '/doubanBooks.txt';
+
+    // write the file
+    RNFS.writeFile(path, this.state.bookJson, 'utf8')
+      .then((success) => {
+        console.log('FILE WRITTEN!');
+      })
+      .catch((err) => {
+        console.log(err.message);
+      });
+
     this.props.navigator.pop();
-    this.props.navigator.push({
-        title: '主页',
-        component: Result,
-        passProps: {bookJson: this.state.bookJson},
-    });
   },
 
   onNavigationStateChange: function(navState) {
@@ -64,10 +73,6 @@ var SaveAccount = React.createClass({
     var url = navState.url.toString();
     var prefix = "http://www.duokan.com/m/"
     if(url.slice(0, prefix.length) == prefix && url != REQUEST_URL){
-      // this.setState({
-      //   url: REQUEST_URL
-      // })
-      ;
       fetch(REQUEST_URL,{
         method: 'GET',
         headers: {
@@ -79,65 +84,13 @@ var SaveAccount = React.createClass({
         .then((responseData) => {
         })
         .done();
-
-        console.log(this.state.bookJson);
-
-
-    }
-
-  },
-
-  _onPressButton: function() {
-    // console.log("papapap",this.state.account);
-    AsyncStorage.setItem("account",this.state.account);
-    AsyncStorage.setItem("passwd",this.state.passwd);
-
-    AsyncStorage.getItem("account").then( (value) =>
-      {
-        console.log("account", value);
-      }
-    ).done();
-
-    AsyncStorage.getItem("passwd").then( (value) =>
-      {
-        console.log("passwd", value);
-      }
-    ).done();
-
-    // TODO 验证账号
-    fetch('https://account.xiaomi.com/pass/serviceLoginAuth2', {
-      method: 'POST',
-      headers: {
-        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.',
-        'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
-      },
-      body: BODY_CONST+'user='+ encodeURIComponent(this.state.account) + "&hash=" + md5(this.state.passwd)
-    })
-    .then((response) => console.log( response.headers ))
-    // .then((response) => response.headers.json())
-    // .then((responseData) => {
-    //     AlertIOS.alert(
-    //         "POST Response",
-    //         "Response Body -> " + JSON.stringify(responseData.body)
-    //     )
-    // })
-    .done();
-
-    if (this.props.navigator) {
-      this.props.navigator.pop();
-      this.props.navigator.push({
-          title: 'Result',
-          component: Result,
-          passProps: {  }
-      });
+        // console.log(this.state.bookJson);
     }
   },
 
   render: function () {
     return (
       <View style={styles.container}>
-
-
         <WebView
           onShouldStartLoadWithRequest={this.onShouldStartLoadWithRequest}
           onNavigationStateChange={this.onNavigationStateChange}

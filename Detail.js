@@ -34,9 +34,6 @@ var Detail = React.createClass({
         },
       })
       .then((response) => this.setState({bookjson:JSON.parse(response._bodyText)}))
-      // .then((data) => {
-      //   console.log(data);
-      // })
       .done();
 
       return {

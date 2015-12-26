@@ -1,6 +1,7 @@
 'use strict';
 
 var React = require('react-native');
+var RNFS = require('react-native-fs');
 
 var TimerMixin = require('react-timer-mixin');
 
@@ -12,53 +13,60 @@ var {
   ToolBarAndroid,
   Text,
   View,
+  AsyncStorage,
 } = React;
 
-// var HomeScreen = require('./HomeScreen');
-var SaveAccount = require('./SaveAccount');
-var Result = require('./Result');
-var BarCode = require('./BarCode');
-var Detail = require('./Detail');
 
-
-// var RouteMapper = function(route, navigationOperations, onComponentRef){
-//   navigator = navigationOperations;
-//   console.log("nani?");
-//   if(route.name === 'home'){
-//     console.log("home");
-//     return <SaveAccount navigator={navigationOperations} />;
-//   }
-//   else if(route.name === 'result')
-//   {
-//     console.log("result");
-//     return <Result navigator={navigationOperations} />;
-//   }
-//   else if(route.name === 'barcode')
-//   {
-//     console.log("barcode");
-//     return <BarCode navigator={navigationOperations} />;
-//   }
-//   else if(route.name === 'detail')
-//   {
-//     console.log("detail");
-//     return <Detail navigator={navigationOperations} />;
-//   }
-//   // else if(route.name === 'account'){
-//   //   return <DetailScreen
-//   //             navigator={navigationOperations}
-//   //             movie={route.movie}
-//   //             title={route.title}/>
-//   // }
-// };
+var Home = require('./Home');
 
 
 var BApp = React.createClass({
   mixins: [TimerMixin],
 
   getInitialState: function() {
-     return {
+
+    var initialRoute = {
+      title: '登陆账号',
+      component: Home,
+      // backButtonTitle: 'Custom Back',
+    };
+
+    RNFS.readDir(RNFS.DocumentDirectoryPath)
+    .then((result) => {
+      for (var i = 0; i < result.length; i++) {
+        if(result[i].name === "doubanBooks.txt"){
+          return Promise.all([RNFS.stat(result[i].path), result[i].path]);
+        }
+      }
+    })
+    .then((statResult) => {
+      if (statResult[0].isFile()) {
+        // if we have a file, read it
+        return RNFS.readFile(statResult[1], 'utf8');
+      }
+      return 'no file';
+    })
+    .then((contents) => {
+      // log the file contents
+      console.log("contents", contents);
+      this.setState({
+        initialRoute: {
+          title: '主页',
+          component: Home,
+          passProps: {bookJson: contents},
+        },
+      });
+
+    })
+    .catch((err) => {
+      console.log(err.message, err.code);
+    });
+
+    return {
+        initialRoute: initialRoute,
         splashed: false,
-     };
+    };
+
   },
 
   componentDidMount: function() {
@@ -71,17 +79,11 @@ var BApp = React.createClass({
   },
 
   render: function() {
-    var initialRoute = {
-      title: '设置账号',
-      component: SaveAccount,
-      backButtonTitle: 'Custom Back',
-    };
-
     if(this.state.splashed){
       return (
        <NavigatorIOS
          style={styles.nav}
-         initialRoute = {initialRoute}
+         initialRoute = {this.state.initialRoute}
        />
       );
     }
@@ -103,7 +105,7 @@ var styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#3cb53a',
+    backgroundColor: '#b3e22a',
   },
   welcome: {
     fontSize: 20,

@@ -1,6 +1,11 @@
 'use strict';
 
+var Detail = require('./Detail');
+var BarCode = require("./BarCode");
+var SaveAccount = require("./SaveAccount");
+
 var React = require('react-native');
+var RNFS = require('react-native-fs');
 
 var {
   AppRegistry,
@@ -13,48 +18,86 @@ var {
   TouchableHighlight,
   Image,
   ListView,
+  AsyncStorage,
 } = React;
-var BarCode = require("./BarCode");
 
-var REQUEST_URL = "http://www.duokan.com/store/v0/payment/book/list"
+var REQUEST_URL = "http://www.duokan.com/store/v0/payment/book/list";
 
-var Result = React.createClass({
+var Home = React.createClass({
 
-
-  getInitialState: function() {
-    // console.log("gggggggggggggggggggggggggg",this.props.bookJson);
-    if(!this.props.bookJson)
-      return null;
+  parseJson :function(value){
+    var bookJson = JSON.parse(value);
 
     var dataSource = new ListView.DataSource({
       rowHasChanged: (row1, row2) => row1 !== row2,
     });
 
-    var items = this.props.bookJson.items;
+    var items = bookJson.items;
 
     var itemsArray = [];
     for(var x in items){
       itemsArray.push(items[x]);
     }
-    // var itemsArray = Object.keys(items).map(function(k) { return items[k] });
 
-    // console.log("heheheheheheheheheh", itemsArray);
     dataSource = dataSource.cloneWithRows(itemsArray);
-    console.log(dataSource);
+
+    this.setState({
+      bookJson: bookJson,
+      dataSource: dataSource,
+      loading: false,
+    });
+  },
+
+  getInitialState: function() {
+
+    console.log(this.props.bookJson);
+
+    console.log("BarCode",BarCode);
+    console.log("SaveAccount",SaveAccount);
+
+
+    // console.log(JSON.parse(this.props.bookJson));
     return {
-       bookJson: this.props.bookJson,
-       dataSource: dataSource,
+      // bookJson: ,
+      loading: true,
     };
   },
 
   _onPressButton: function() {
     this.props.navigator.push({
-        title: '扫描条形码',
-        component: BarCode,
+      title: '扫描条形码',
+      component: BarCode,
     });
   },
 
+  _onLoginDuokan: function() {
+    console.log("SaveAccount", SaveAccount);
+    this.props.navigator.push({
+      title: '登陆账号',
+      component: SaveAccount,
+    });
+  },
+
+  renderLoadingView: function() {
+    return (
+      <View style={styles.container}>
+        <Text>
+          Loading...
+        </Text>
+        <TouchableHighlight onPress={this._onLoginDuokan}>
+          <Image
+            style={styles.button}
+          />
+        </TouchableHighlight>
+      </View>
+    );
+  },
+
   render: function() {
+    if(this.state.loading){
+      return this.renderLoadingView();
+    }
+
     return (
       <View style={styles.container}>
         <Text style={styles.welcome}>搜到{this.state.bookJson.count}本书</Text>
@@ -74,7 +117,6 @@ var Result = React.createClass({
   },
 
   renderBook: function(book) {
-    console.log(book);
     return (
       <View style={styles.listContainer}>
         <Image
@@ -139,4 +181,4 @@ var styles = StyleSheet.create({
 
 });
 
-module.exports = Result;
+module.exports = Home;

@@ -48,9 +48,6 @@ var BarCode = React.createClass({
     if(this.state.hasRead)
       return;
 
-    console.log(e);
-    console.log(typeof e);
-    console.log(e.data);
     var isbn = e.data;
     this.state.hasRead = true;
 
@@ -105,4 +102,4 @@ var styles = StyleSheet.create({
   },
 });
 
-module.exports = BarCode;
+exports = BarCode;
