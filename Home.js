@@ -22,6 +22,7 @@ var {
 
 var REQUEST_URL = "http://www.duokan.com/store/v0/payment/book/list";
 
+
 var Home = React.createClass({
   getInitialState: function() {
 
@@ -60,12 +61,13 @@ var Home = React.createClass({
 
   _onLoginDuokan: function() {
     var SaveAccount = require('./SaveAccount');
-    console.log("SaveAccount", SaveAccount);
     this.props.navigator.push({
       title: '登陆账号',
       component: SaveAccount,
     });
   },
+
+
 
   renderLoadingView: function() {
     return (
@@ -73,11 +75,7 @@ var Home = React.createClass({
         <Text>
           Loading...
         </Text>
-        <TouchableHighlight onPress={this._onLoginDuokan}>
-          <Image
-            style={styles.button}
-          />
-        </TouchableHighlight>
+        <LoginDoukanBtn />
       </View>
     );
   },
@@ -96,9 +94,14 @@ var Home = React.createClass({
           style={styles.listView}
         />
         <TouchableHighlight onPress={this._onPressButton}>
-          <Image
-            style={styles.button}
-          />
+          <Image style={styles.button}>
+            <Text>扫码</Text>
+          </Image>
+        </TouchableHighlight>
+        <TouchableHighlight onPress={this._onLoginDuokan}>
+          <Image style={styles.button}>
+            <Text>登录多看</Text>
+          </Image>
         </TouchableHighlight>
 
       </View>

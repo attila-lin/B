@@ -51,27 +51,11 @@ var Detail = React.createClass({
 
 
   _onPressButton: function() {
-    console.log(this.state.bookjson);
-    console.log(typeof this.state.bookjson);
-
-    console.log(this.state.bookjson.image);
-    // AlertIOS.alert(
-    //   'Bar Button Action',
-    //   'Recognized a tap on the bar button icon',
-    //   [
-    //     {
-    //       text: "hehe",
-    //       onPress: () => console.log('Tapped OK'),
-    //     },
-    //   ]
-    // );
 
 
   },
 
   render: function() {
-
-    // console.log("???",this.state.bookjson);
 
     if(this.state.bookjson != ""){
       console.log("hheheheh");
@@ -84,16 +68,14 @@ var Detail = React.createClass({
               />
 
           <TouchableHighlight onPress={this._onPressButton}>
-            <Image
-              style={styles.button}
-            />
+            <Image style={styles.button}>
+              <Text>添加到已购</Text>
+            </Image>
           </TouchableHighlight>
-
         </View>
       );
     }
     else {
-      console.log("~~~~");
       return (
         <View style={styles.container}>
           <Text style={styles.welcome}>书的内容</Text>
