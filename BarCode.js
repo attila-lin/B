@@ -1,4 +1,7 @@
 var React = require('react-native');
+
+import Detail from './Detail';
+
 var {
   AppRegistry,
   StyleSheet,
@@ -9,7 +12,7 @@ var {
 } = React;
 var Camera = require('react-native-camera');
 
-var Detail = require("./Detail");
+
 
 var BarCode = React.createClass({
   getInitialState() {
@@ -102,4 +105,4 @@ var styles = StyleSheet.create({
   },
 });
 
-exports = BarCode;
+module.exports = BarCode;

@@ -21,7 +21,6 @@ var {
     WebView,
 } = React;
 
-// var BODY_CONST = "_json=true&callback=https%3A%2F%2Faccount.xiaomi.com%2Fsts%3Fsign%3DZvAtJIzsDsFe60LdaPa76nNNP58%253D%26followup%3Dhttps%253A%252F%252Faccount.xiaomi.com%252Fpass%252Fauth%252Fsecurity%252Fhome%26sid%3Dpassport&sid=passport&qs=%253Fcallback%253Dhttps%25253A%25252F%25252Faccount.xiaomi.com%25252Fsts%25253Fsign%25253DZvAtJIzsDsFe60LdaPa76nNNP58%2525253D%252526followup%25253Dhttps%2525253A%2525252F%2525252Faccount.xiaomi.com%2525252Fpass%2525252Fauth%2525252Fsecurity%2525252Fhome%252526sid%25253Dpassport%2526sid%253Dpassport&_sign=2%26V1_passport%26JO7oplyppgkN%2FTiDH69nleQr10g%3D&serviceParam=%7B%22checkSafePhone%22%3Afalse%7D&";
 var BGWASH = 'rgba(255,255,255,0.8)';
 var WEBVIEW_REF = 'webview';
 var REQUEST_URL = "http://www.duokan.com/store/v0/payment/book/list"
@@ -50,20 +49,23 @@ var SaveAccount = React.createClass({
     // console.log(JSON.parse(response._bodyInit));
     this.setState({bookJson : JSON.parse(response._bodyInit)});
 
+    // console.log("?????????????????",JSON.parse(response._bodyInit));
+
     // AsyncStorage.setItem("doubanBooks",this.state.bookJson.toString());
     // create a path you want to write to
     var path = RNFS.DocumentDirectoryPath + '/doubanBooks.txt';
 
     // write the file
-    RNFS.writeFile(path, this.state.bookJson, 'utf8')
+    RNFS.writeFile(path, response._bodyInit, 'utf8')
       .then((success) => {
         console.log('FILE WRITTEN!');
+        this.props.navigator.pop();
       })
       .catch((err) => {
         console.log(err.message);
       });
 
-    this.props.navigator.pop();
+
   },
 
   onNavigationStateChange: function(navState) {

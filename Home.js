@@ -1,8 +1,7 @@
 'use strict';
 
-var Detail = require('./Detail');
-var BarCode = require("./BarCode");
-var SaveAccount = require("./SaveAccount");
+// import SaveAccount from './SaveAccount';
+// import BarCode from './BarCode';
 
 var React = require('react-native');
 var RNFS = require('react-native-fs');
@@ -24,9 +23,11 @@ var {
 var REQUEST_URL = "http://www.duokan.com/store/v0/payment/book/list";
 
 var Home = React.createClass({
+  getInitialState: function() {
 
-  parseJson :function(value){
-    var bookJson = JSON.parse(value);
+    // console.log(this.props.bookJson);
+
+    var bookJson = JSON.parse(this.props.bookJson);
 
     var dataSource = new ListView.DataSource({
       rowHasChanged: (row1, row2) => row1 !== row2,
@@ -41,29 +42,16 @@ var Home = React.createClass({
 
     dataSource = dataSource.cloneWithRows(itemsArray);
 
-    this.setState({
+    return({
       bookJson: bookJson,
       dataSource: dataSource,
       loading: false,
     });
   },
 
-  getInitialState: function() {
-
-    console.log(this.props.bookJson);
-
-    console.log("BarCode",BarCode);
-    console.log("SaveAccount",SaveAccount);
-
-
-    // console.log(JSON.parse(this.props.bookJson));
-    return {
-      // bookJson: ,
-      loading: true,
-    };
-  },
-
   _onPressButton: function() {
+    var BarCode = require('./BarCode');
+    console.log("BarCode", BarCode);
     this.props.navigator.push({
       title: '扫描条形码',
       component: BarCode,
@@ -71,6 +59,7 @@ var Home = React.createClass({
   },
 
   _onLoginDuokan: function() {
+    var SaveAccount = require('./SaveAccount');
     console.log("SaveAccount", SaveAccount);
     this.props.navigator.push({
       title: '登陆账号',

@@ -3,6 +3,9 @@
 var React = require('react-native');
 var RNFS = require('react-native-fs');
 
+// import Home from './Home';
+var Home = require('./Home');
+
 var TimerMixin = require('react-timer-mixin');
 
 var {
@@ -16,10 +19,6 @@ var {
   AsyncStorage,
 } = React;
 
-
-var Home = require('./Home');
-
-
 var BApp = React.createClass({
   mixins: [TimerMixin],
 
@@ -28,7 +27,6 @@ var BApp = React.createClass({
     var initialRoute = {
       title: '登陆账号',
       component: Home,
-      // backButtonTitle: 'Custom Back',
     };
 
     RNFS.readDir(RNFS.DocumentDirectoryPath)
@@ -48,7 +46,7 @@ var BApp = React.createClass({
     })
     .then((contents) => {
       // log the file contents
-      console.log("contents", contents);
+      // console.log("contents", contents);
       this.setState({
         initialRoute: {
           title: '主页',
