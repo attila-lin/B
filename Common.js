@@ -18,7 +18,6 @@ class Common {
       }
 
       if (statResult[0].isFile()) {
-        console.log("isffffffffffffffffffffffffffffffffffffffil");
         return RNFS.readFile(statResult[1], 'utf8');
       }
       else {
@@ -27,10 +26,6 @@ class Common {
 
     })
     .then((contents) => {
-      console.log(contents);
-      if(contents === null)
-        return null;
-
       callback(contents);
     })
     .catch((err) => {
@@ -41,5 +36,6 @@ class Common {
 
 Common.DOUBAN_BOOKS_JSON_NAME = "doubanBooks.txt";
 Common.DUOKAN_BOOKS_JSON_NAME = "duokanBooks.txt";
+Common.SHITI_BOOKS_JSON_NAME = "shitiBooks.txt";
 
 module.exports = Common;

@@ -52,21 +52,36 @@ var Detail = React.createClass({
 
   _onPressButton: function() {
 
+    var bookJson = {
+      title: this.state.bookjson.title,
+      cover: this.state.bookjson.medium,
+      authors: this.state.bookjson.author,
+    };
+    var Home = require("./Home");
 
+    console.log(this.props.route);
+    // this.props.navigator.popToRoute(
+    //   {
+    //       title: '主页',
+    //       component: Home,
+    //       passProps: {addBook: bookJson},
+    //   }
+    // );
+
+    // this.props.navigator.popN(2);
   },
 
   render: function() {
 
     if(this.state.bookjson != ""){
-      console.log("hheheheh");
       return (
         <View style={styles.container}>
           <Text style={styles.welcome}>{this.state.bookjson.title}</Text>
             <Image
               style={styles.logo}
-              source = {{uri:this.state.bookjson.images.large}}
+              source = {{uri:this.state.bookjson.images.medium}}
               />
-
+            <Text style={styles.welcome}>{this.state.bookjson.author}</Text>
           <TouchableHighlight onPress={this._onPressButton}>
             <Image style={styles.button}>
               <Text>添加到已购</Text>
@@ -113,8 +128,8 @@ var styles = StyleSheet.create({
     justifyContent: 'center'
   },
   logo: {
-    width: 288,
-    height: 462,
+    width: 140,
+    height: 231,
   }
 });
 

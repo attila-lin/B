@@ -12,8 +12,6 @@ var {
 } = React;
 var Camera = require('react-native-camera');
 
-
-
 var BarCode = React.createClass({
   getInitialState() {
     return {
@@ -47,6 +45,7 @@ var BarCode = React.createClass({
       </Camera>
     );
   },
+
   _onBarCodeRead(e) {
     if(this.state.hasRead)
       return;
@@ -54,23 +53,29 @@ var BarCode = React.createClass({
     var isbn = e.data;
     this.state.hasRead = true;
 
-    AlertIOS.alert(
-      'Bar Button Action',
-      'Recognized a tap on the bar button icon',
-      [
-        {
-          text: isbn,
-          onPress: () => console.log('Tapped OK'),
-        },
-      ]
-    );
-    // if(this.props.navigator.name === 'barcode'){
-      this.props.navigator.push({
-          title: '书籍详情',
-          component: Detail,
-          passProps: {isbn: isbn},
-      });
-    // }
+    // AlertIOS.alert(
+    //   'Bar Button Action',
+    //   'Recognized a tap on the bar button icon',
+    //   [
+    //     {
+    //       text: isbn,
+    //       onPress: () => console.log('Tapped OK'),
+    //     },
+    //   ]
+    // );
+    var _onLeftButtonPress = function()
+    {
+      console.log("_onLeftButtonPress");
+      this.setState({hasRead:false});
+      this.props.navigator.pop();
+    };
+
+    this.props.navigator.push({
+        title: '书籍详情',
+        component: Detail,
+        passProps: {isbn: isbn},
+        onLeftButtonPress: () => _onLeftButtonPress(),
+    });
   },
   _switchCamera() {
     var state = this.state;

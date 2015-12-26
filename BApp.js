@@ -33,6 +33,7 @@ var BApp = React.createClass({
         passProps: {
           doubanBookJsonStr: this.state.doubanBookJsonStr,
           duokanBookJsonStr: this.state.duokanBookJsonStr,
+          shitiBookJsonStr: this.state.shitiBookJsonStr,
         },
       },
     });
@@ -44,27 +45,48 @@ var BApp = React.createClass({
       count: 0,
       items: [],
     };
+    console.log("JSON.stringify(emptyJson)", JSON.stringify(emptyJson))
 
     return JSON.stringify(emptyJson);
   },
 
   _dkcallback : function(contents){
     console.log("_dkcallback");
-    if(contents == null)
-      this.setState({duokanBookJsonStr: _getEmptyBookJson()});
-    this.setState({duokanBookJsonStr: contents});
-
-    if(this.state.doubanBookJsonStr != null)
-      this._gotoHome();
+    this.setState({duokanBookJsonStr: contents != null ? contents: this._getEmptyBookJson()});
+    this._tryGotoHome();
   },
 
   _dbcallback: function(contents){
-    if(contents == null)
-      this.setState({doubanBookJsonStr: _getEmptyBookJson()});
-    this.setState({doubanBookJsonStr: contents});
+    console.log("_dbcallback", contents != null);
+    // console.log(this.state.doubanBookJsonStr)
+    this.setState({doubanBookJsonStr: contents != null ? contents: this._getEmptyBookJson()});
+    this._tryGotoHome()
+    // console.log(this.state.doubanBookJsonStr)
+  },
 
-    if(this.state.duokanBookJsonStr != null)
+  _stcallback: function(contents){
+    console.log("_stcallback");
+    this.setState({shitiBookJsonStr:  contents != null ? contents: this._getEmptyBookJson()});
+    this._tryGotoHome();
+  },
+
+  _tryGotoHome: function()
+  {
+    if(this._isAllReadDone())
       this._gotoHome();
+  },
+
+  _isAllReadDone: function()
+  {
+    console.log(this.state.duokanBookJsonStr != null)
+    console.log(this.state.doubanBookJsonStr != null)
+    console.log(this.state.shitiBookJsonStr != null)
+    console.log(this.state.duokanBookJsonStr != null
+          && this.state.doubanBookJsonStr != null
+          && this.state.shitiBookJsonStr != null);
+    return this.state.duokanBookJsonStr != null
+          && this.state.doubanBookJsonStr != null
+          && this.state.shitiBookJsonStr != null;
   },
 
   getInitialState: function() {
@@ -74,14 +96,17 @@ var BApp = React.createClass({
       component: Home,
     };
 
+    // 读取本地数据
     Common.ReadFile(Common.DUOKAN_BOOKS_JSON_NAME, this._dkcallback);
     Common.ReadFile(Common.DOUBAN_BOOKS_JSON_NAME, this._dbcallback);
+    Common.ReadFile(Common.SHITI_BOOKS_JSON_NAME, this._stcallback);
 
     return {
         initialRoute: initialRoute,
         splashed: false,
         doubanBookJsonStr: null,
         duokanBookJsonStr: null,
+        shitiBookJsonStr: null,
     };
 
   },
@@ -91,7 +116,7 @@ var BApp = React.createClass({
       () => {
         this.setState({splashed: true});
       },
-      2000,
+      3000,
     );
   },
 

@@ -26,14 +26,14 @@ var Common = require('./Common');
 
 var Home = React.createClass({
 
-  _getAllBooks: function(dbJson, dkJson)
+  _getAllBooks: function(dbJson, dkJson, stJson)
   {
     var allBook = {
       count: 0,
       items: [],
     };
-    allBook.count = dbJson.count + dkJson.count;
-    allBook.items = dbJson.items.concat(dkJson.items);
+    allBook.count = dbJson.count + dkJson.count + stJson.count;
+    allBook.items = dbJson.items.concat(dkJson.items).concat(stJson.count);
     return allBook;
   },
 
@@ -41,6 +41,17 @@ var Home = React.createClass({
 
     console.log("this.props.doubanBookJsonStr", this.props.doubanBookJsonStr);
     console.log("this.props.duokanBookJsonStr", this.props.duokanBookJsonStr);
+    console.log("this.props.shitiBookJsonStr", this.props.shitiBookJsonStr);
+
+    var stJson;
+    if(this.props.shitiBookJsonStr === undefined)
+      stJson = {
+        count: 0,
+        items: [],
+      };
+    else{
+      stJson = JSON.parse(this.props.shitiBookJsonStr);
+    }
 
     var dbJson;
     if(this.props.doubanBookJsonStr === undefined)
@@ -62,7 +73,7 @@ var Home = React.createClass({
       dkJson = JSON.parse(this.props.duokanBookJsonStr);
     }
 
-    var allBook = this._getAllBooks(dbJson, dkJson);
+    var allBook = this._getAllBooks(dbJson, dkJson, stJson);
 
     var dataSource = new ListView.DataSource({
       rowHasChanged: (row1, row2) => row1 !== row2,
@@ -79,6 +90,9 @@ var Home = React.createClass({
 
     return({
       allBook: allBook,
+      dbJson: dbJson,
+      dkJson: dkJson,
+      stJson: stJson,
       dataSource: dataSource,
       loading: false,
     });
@@ -129,7 +143,10 @@ var Home = React.createClass({
 
     return (
       <View style={styles.container}>
-        <Text style={styles.welcome}>搜到{this.state.allBook.count}本书</Text>
+        <Text style={styles.welcome}>你共拥有{this.state.allBook.count}本书</Text>
+        <Text style={styles.welcome}>其中多看阅读中{this.state.dkJson.count}本书</Text>
+        <Text style={styles.welcome}>其中豆瓣阅读中{this.state.dbJson.count}本书</Text>
+        <Text style={styles.welcome}>其中实体书中{this.state.stJson.count}本书</Text>
         <ListView
           dataSource={this.state.dataSource}
           renderRow={this.renderBook}

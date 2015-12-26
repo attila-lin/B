@@ -29,6 +29,9 @@ var REQUEST_URL_END = "/library?start=";
 var REQUEST_ID_URL = "http://read.douban.com/";
 var LOGIN_URL = "https://accounts.douban.com/login";
 
+// TODO 
+var GET_PAYED_URL = "http://read.douban.com/account/billing";
+
 var LOGINED_URL1 = "http://m.douban.com";
 var LOGINED_URL2 = "http://read.douban.com/account/setting";
 var LOGINED_URL3 = "http://www.douban.com/";
