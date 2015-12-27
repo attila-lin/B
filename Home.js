@@ -7,6 +7,8 @@ var EventEmitter = require('EventEmitter');
 var Subscribable = require('Subscribable');
 var TimerMixin = require('react-timer-mixin');
 
+var icloud = require('react-native-icloud-sync');
+
 var {
   AppRegistry,
   StyleSheet,
