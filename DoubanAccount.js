@@ -1,3 +1,4 @@
+'use strict';
 
 var React = require('react-native');
 var md5 = require('md5');
@@ -29,7 +30,7 @@ var REQUEST_URL_END = "/library?start=";
 var REQUEST_ID_URL = "http://read.douban.com/";
 var LOGIN_URL = "https://accounts.douban.com/login";
 
-// TODO 
+// TODO
 var GET_PAYED_URL = "http://read.douban.com/account/billing";
 
 var LOGINED_URL1 = "http://m.douban.com";
@@ -133,7 +134,9 @@ var DoubanAccount = React.createClass({
     RNFS.writeFile(path, bookJsonStr, 'utf8')
       .then((success) => {
         console.log('FILE WRITTEN!');
+        this.props.events.emit('updateDoubanBooks', { dbJson: this.state.bookJson });
         this.props.navigator.pop();
+
       })
       .catch((err) => {
         console.log(err.message);

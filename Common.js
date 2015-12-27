@@ -1,6 +1,25 @@
+'use strict';
+
 var RNFS = require('react-native-fs');
 
 class Common {
+
+  static getEmptyBookJsonStr()
+  {
+    var emptyJson = {
+      count: 0,
+      items: [],
+    };
+    // console.log("JSON.stringify(emptyJson)", JSON.stringify(emptyJson))
+
+    return JSON.stringify(emptyJson);
+  }
+
+  static getEmptyBookJson()
+  {
+    return {count:0, items: []};
+  }
+
   static ReadFile(fileName, callback)
   {
     RNFS.readDir(RNFS.DocumentDirectoryPath)

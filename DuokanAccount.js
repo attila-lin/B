@@ -50,6 +50,8 @@ var DuokanAccount = React.createClass({
   {
     this.setState({bookJson : JSON.parse(response._bodyInit)});
 
+    console.log("bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb", this.state.bookJson.count);
+
     // create a path you want to write to
     var path = RNFS.DocumentDirectoryPath + '/' + Common.DUOKAN_BOOKS_JSON_NAME;
 
@@ -57,6 +59,7 @@ var DuokanAccount = React.createClass({
     RNFS.writeFile(path, response._bodyInit, 'utf8')
       .then((success) => {
         console.log('FILE WRITTEN!');
+        this.props.events.emit('updateDuokanBooks', { dkJson: this.state.bookJson });
         this.props.navigator.pop();
       })
       .catch((err) => {

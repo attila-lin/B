@@ -22,13 +22,11 @@ var BarCode = React.createClass({
 
   _onLeftButtonPress : function()
   {
-    console.log("_onLeftButtonPress");
     this.setState({hasRead:false});
     this.props.navigator.pop();
   },
 
   render() {
-
     return (
       <Camera
         ref="cam"
@@ -59,6 +57,7 @@ var BarCode = React.createClass({
 
     var isbn = e.data;
     this.state.hasRead = true;
+    console.log("isbn",isbn);
 
     // AlertIOS.alert(
     //   'Bar Button Action',
@@ -71,13 +70,15 @@ var BarCode = React.createClass({
     //   ]
     // );
 
-
     this.props.navigator.push({
         title: '书籍详情',
         component: Detail,
-        passProps: {isbn: isbn},
         leftButtonTitle: "扫码",
         onLeftButtonPress: () => this._onLeftButtonPress(),
+        passProps: {
+          isbn: isbn,
+          events: this.props.events,
+        }
     });
   },
   _switchCamera() {

@@ -1,10 +1,11 @@
 'use strict';
 
-// import SaveAccount from './SaveAccount';
-// import BarCode from './BarCode';
-
 var React = require('react-native');
 var RNFS = require('react-native-fs');
+
+var EventEmitter = require('EventEmitter');
+var Subscribable = require('Subscribable');
+var TimerMixin = require('react-timer-mixin');
 
 var {
   AppRegistry,
@@ -25,61 +26,73 @@ var REQUEST_URL = "http://www.duokan.com/store/v0/payment/book/list";
 var Common = require('./Common');
 
 var Home = React.createClass({
+  mixins: [TimerMixin],
 
-  _getAllBooks: function(dbJson, dkJson, stJson)
+  _updateAllBook: function()
   {
-    var allBook = {
-      count: 0,
-      items: [],
-    };
-    allBook.count = dbJson.count + dkJson.count + stJson.count;
-    allBook.items = dbJson.items.concat(dkJson.items).concat(stJson.count);
-    return allBook;
+    var allBook = Common.getEmptyBookJson();
+    allBook.count = this.state.dbJson.count + this.state.dkJson.count + this.state.stJson.count;
+    allBook.items = this.state.dbJson.items.concat(this.state.dkJson.items).concat(this.state.stJson.count);
+    this.setState({allBook:allBook});
   },
 
-  getInitialState: function() {
+  componentWillMount: function()
+  {
+    console.log("componentWillMount");
+    this.eventEmitter = new EventEmitter();
+  },
 
-    //console.log("this.props.doubanBookJsonStr", this.props.doubanBookJsonStr);
-    //console.log("this.props.duokanBookJsonStr", this.props.duokanBookJsonStr);
-    //console.log("this.props.shitiBookJsonStr", this.props.shitiBookJsonStr);
+  componentDidMount: function()
+  {
+    console.log("componentDidMount");
+    // this.addListenerOn(this.props.events, 'addOneNewBook', this._update);
+    this.eventEmitter.addListener('addOneNewBook', this._addOneNewBook);
+    this.eventEmitter.addListener('updateDoubanBooks', this._updateDoubanBooks);
+    this.eventEmitter.addListener('updateDuokanBooks', this._updateDuokanBooks);
 
+    this.setTimeout(
+      () => {
+        console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+        this.loadData();
+        this.setState({loading: false});
+      },
+      1000,
+    );
+  },
+
+  loadData: function()
+  {
     var stJson;
     if(this.props.shitiBookJsonStr === undefined)
-      stJson = {
-        count: 0,
-        items: [],
-      };
+      stJson = Common.getEmptyBookJson();
     else{
       stJson = JSON.parse(this.props.shitiBookJsonStr);
     }
+    this.setState({stJson:stJson});
 
     var dbJson;
     if(this.props.doubanBookJsonStr === undefined)
-      dbJson = {
-        count: 0,
-        items: [],
-      };
+      dbJson = Common.getEmptyBookJson();
     else{
       dbJson = JSON.parse(this.props.doubanBookJsonStr);
     }
+    this.setState({dbJson:dbJson});
 
     var dkJson;
     if(this.props.doubanBookJsonStr === undefined)
-      dkJson = {
-        count: 0,
-        items: [],
-      };
+      dkJson = Common.getEmptyBookJson();
     else{
       dkJson = JSON.parse(this.props.duokanBookJsonStr);
     }
+    this.setState({dkJson:dkJson});
 
-    var allBook = this._getAllBooks(dbJson, dkJson, stJson);
+    this._updateAllBook();
 
     var dataSource = new ListView.DataSource({
       rowHasChanged: (row1, row2) => row1 !== row2,
     });
 
-    var items = allBook.items;
+    var items = this.state.allBook.items;
 
     var itemsArray = [];
     for(var x in items){
@@ -87,15 +100,55 @@ var Home = React.createClass({
     }
 
     dataSource = dataSource.cloneWithRows(itemsArray);
+    this.setState({dataSource:dataSource});
+  },
 
+  _addOneNewBook: function(args)
+  {
+    console.log("uuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuu", args);
+
+    var stJson = this.state.stJson;
+    stJson.count += 1;
+    stJson.items.push(args.newBook);
+    this.setState({stJson: stJson});
+  },
+
+  _updateDoubanBooks: function(args)
+  {
+    console.log("_updateDoubanBooks", args.dbJson.count);
+    this.setState({dbJson:args.dbJson});
+  },
+
+  _updateDuokanBooks: function(args)
+  {
+    console.log("_updateDuokanBooks", args.dkJson.count);
+    this.setState({dkJson:args.dkJson});
+  },
+
+  componentWillReceiveProps: function (nextProps) {
+    // body...
+    // console.log("componentWillReceiveProps", nextProps);
+  },
+
+  shouldComponentUpdate: function(nextProps, nextState)
+  {
+    return true;
+  },
+
+  componentDidUpdate: function(prevProps, prevState)
+  {
+      console.log("componentDidUpdate");
+  },
+
+  getInitialState: function() {
     return({
-      allBook: allBook,
-      dbJson: dbJson,
-      dkJson: dkJson,
-      stJson: stJson,
-      dataSource: dataSource,
-      loading: false,
-    });
+        allBook: Common.getEmptyBookJson(),
+        dbJson: Common.getEmptyBookJson(),
+        dkJson: Common.getEmptyBookJson(),
+        stJson: Common.getEmptyBookJson(),
+        dataSource: null,
+        loading: true,
+      });
   },
 
   _onPressButton: function() {
@@ -104,6 +157,9 @@ var Home = React.createClass({
     this.props.navigator.push({
       title: '扫描条形码',
       component: BarCode,
+      passProps: {
+          events: this.eventEmitter
+      }
       // leftButtonTitle:"主页",
       // onLeftButtonPress: () => console.log("hehhe") ,
     });
@@ -114,6 +170,9 @@ var Home = React.createClass({
     this.props.navigator.push({
       title: '',
       component: DuokanAccount,
+      passProps: {
+          events: this.eventEmitter
+      }
     });
   },
 
@@ -122,6 +181,9 @@ var Home = React.createClass({
     this.props.navigator.push({
       title: '登陆账号',
       component: DoubanAccount,
+      passProps: {
+          events: this.eventEmitter
+      }
     });
   },
 
@@ -133,12 +195,12 @@ var Home = React.createClass({
         <Text>
           Loading...
         </Text>
-        <LoginDoukanBtn />
       </View>
     );
   },
 
   render: function() {
+    console.log("render",this.state.loading);
     if(this.state.loading){
       return this.renderLoadingView();
     }

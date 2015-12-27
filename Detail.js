@@ -3,6 +3,8 @@
 var React = require('react-native');
 var TimerMixin = require('react-timer-mixin');
 
+var EventEmitter = require('EventEmitter');
+
 var {
   AppRegistry,
   StyleSheet,
@@ -19,11 +21,19 @@ var {
 var Detail = React.createClass({
   mixins: [TimerMixin],
 
-  getInitialState: function() {
-    if(!this.props.isbn)
-      return null;
+  componentWillMount: function() {
 
-      console.log('https://api.douban.com/v2/book/isbn/' + this.props.isbn);
+  },
+
+
+  getInitialState: function() {
+    // console.log("events", this.props.events);
+    if(!this.props.isbn)
+      return {
+         bookjson: "",
+      };
+
+      // console.log('https://api.douban.com/v2/book/isbn/' + this.props.isbn);
 
       fetch('https://api.douban.com/v2/book/isbn/' + this.props.isbn, {
         method: 'GET',
@@ -54,12 +64,14 @@ var Detail = React.createClass({
 
     var bookJson = {
       title: this.state.bookjson.title,
-      cover: this.state.bookjson.medium,
+      cover: this.state.bookjson.images.medium,
       authors: this.state.bookjson.author,
     };
     var Home = require("./Home");
 
-    console.log(this.props.route);
+    this.props.events.emit('addOneNewBook', { newBook: bookJson });
+
+    // console.log(this.props.route);
     // this.props.navigator.popToRoute(
     //   {
     //       title: '主页',
@@ -68,7 +80,7 @@ var Detail = React.createClass({
     //   }
     // );
 
-    // this.props.navigator.popN(2);
+    this.props.navigator.popN(2);
   },
 
   render: function() {
