@@ -111,6 +111,17 @@ var Home = React.createClass({
     stJson.count += 1;
     stJson.items.push(args.newBook);
     this.setState({stJson: stJson});
+
+    var path = RNFS.DocumentDirectoryPath + '/' + Common.SHITI_BOOKS_JSON_NAME;
+
+    // write the file
+    RNFS.writeFile(path, JSON.stringify(this.state.stJson), 'utf8')
+      .then((success) => {
+        console.log('FILE WRITTEN!');
+      })
+      .catch((err) => {
+        console.log(err.message);
+      });
   },
 
   _updateDoubanBooks: function(args)
