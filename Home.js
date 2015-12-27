@@ -205,7 +205,7 @@ var Home = React.createClass({
   renderLoadingView: function() {
     return (
       <View style={styles.container}>
-        <Text>
+        <Text style={{textAlign: 'center'}}>
           Loading...
         </Text>
       </View>
@@ -220,30 +220,34 @@ var Home = React.createClass({
 
     return (
       <View style={styles.container}>
-        <Text style={styles.welcome}>你共拥有{this.state.allBook.count}本书</Text>
-        <Text style={styles.welcome}>其中多看阅读中{this.state.dkJson.count}本书</Text>
-        <Text style={styles.welcome}>其中豆瓣阅读中{this.state.dbJson.count}本书</Text>
-        <Text style={styles.welcome}>其中实体书中{this.state.stJson.count}本书</Text>
+        <View style={styles.textContainer}>
+          <Text style={styles.welcome}>你共拥有{this.state.allBook.count}本书</Text>
+          <Text style={styles.Commit}>其中多看阅读中{this.state.dkJson.count}本书</Text>
+          <Text style={styles.Commit}>其中豆瓣阅读中{this.state.dbJson.count}本书</Text>
+          <Text style={styles.Commit}>其中实体书中{this.state.stJson.count}本书</Text>
+        </View>
         <ListView
           dataSource={this.state.dataSource}
           renderRow={this.renderBook}
           style={styles.listView}
         />
-        <TouchableHighlight onPress={this._onPressButton}>
-          <Image style={styles.button}>
-            <Text>扫码</Text>
-          </Image>
-        </TouchableHighlight>
-        <TouchableHighlight onPress={this._onLoginDuokan}>
-          <Image style={styles.button}>
-            <Text>登录多看</Text>
-          </Image>
-        </TouchableHighlight>
-        <TouchableHighlight onPress={this._onLoginDouban}>
-          <Image style={styles.button}>
-            <Text>登录豆瓣</Text>
-          </Image>
-        </TouchableHighlight>
+        <View style={styles.buttonContainer}>
+          <TouchableHighlight onPress={this._onPressButton}>
+            <Image style={styles.button}>
+              <Text style={styles.buttonText}>扫码</Text>
+            </Image>
+          </TouchableHighlight>
+          <TouchableHighlight onPress={this._onLoginDuokan}>
+            <Image style={styles.button}>
+              <Text style={styles.buttonText}>登录多看</Text>
+            </Image>
+          </TouchableHighlight>
+          <TouchableHighlight onPress={this._onLoginDouban}>
+            <Image style={styles.button}>
+              <Text style={styles.buttonText}>登录豆瓣</Text>
+            </Image>
+          </TouchableHighlight>
+        </View>
 
       </View>
     );
@@ -252,13 +256,15 @@ var Home = React.createClass({
   renderBook: function(book) {
     return (
       <View style={styles.listContainer}>
-        <Image
-          source={{uri: book.cover}}
-          style={styles.thumbnail}
-        />
+        <View style={styles.coverContainer}>
+          <Image
+            source={{uri: book.cover}}
+            style={styles.cover}
+          />
+        </View>
         <View style={styles.rightContainer}>
           <Text style={styles.title}>{book.title}</Text>
-          <Text style={styles.title}>{book.authors}</Text>
+          <Text style={styles.author}>{book.authors}</Text>
         </View>
       </View>
     );
@@ -271,21 +277,30 @@ var styles = StyleSheet.create({
     backgroundColor: 'white',
     marginTop: 64,
   },
+  textContainer: {
+    backgroundColor: '#edeff6',
+  },
   listContainer: {
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#F5FCFF',
+    backgroundColor: 'white',
+    borderBottomColor: '#eaecea',
+    borderBottomWidth: 1,
   },
   welcome: {
     fontSize: 20,
     textAlign: 'center',
-    margin: 10,
+    margin: 5,
+  },
+  Commit: {
+    fontSize: 10,
+    textAlign: 'center',
+    margin: 2,
   },
   button: {
     height: 20,
-    flexDirection: 'row',
     backgroundColor: '#48BBEC',
     borderColor: '#48BBEC',
     borderWidth: 1,
@@ -295,19 +310,43 @@ var styles = StyleSheet.create({
     width: 80,
   },
   listView: {
-    backgroundColor: '#F5FCFF',
+    backgroundColor: 'white',
   },
-  thumbnail: {
-    width: 53,
-    height: 81,
+  cover: {
+    width: 50,
+    height: 75,
   },
   title: {
-    fontSize: 20,
+    fontSize: 15,
     marginBottom: 8,
-    textAlign: 'center',
+    textAlign: 'left',
+    color: '#002B36',
+  },
+  author: {
+    fontSize: 10,
+    marginBottom: 8,
+    textAlign: 'left',
+    color: '#a5a7a7',
   },
   rightContainer: {
     flex: 1,
+    marginLeft:8,
+  },
+  coverContainer: {
+    // flex: 1,
+    margin: 8,
+    // marginBottom: 4,
+  },
+  buttonContainer: {
+    paddingLeft:100,
+    width:100,
+    margin: 8,
+    backgroundColor: 'transparent',
+  },
+  buttonText: {
+    fontSize: 10,
+    textAlign: 'center',
+    margin: 2,
   },
 
 });

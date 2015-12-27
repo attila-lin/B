@@ -116,7 +116,7 @@ var BApp = React.createClass({
       () => {
         this.setState({splashed: true});
       },
-      3000,
+      100,
     );
   },
 
