@@ -26,10 +26,14 @@ var BApp = React.createClass({
 
   _gotoHome: function()
   {
+    // var a = require('./image/iconfont-saoma.png');
+    console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!", Home._onPressButton);
     this.setState({
       initialRoute: {
         title: '主页',
         component: Home,
+        rightButtonIcon: require('./image/iconfont-saoma.png'),
+        // onRightButtonPress: Home._onPressButton.bind(this),
         passProps: {
           doubanBookJsonStr: this.state.doubanBookJsonStr,
           duokanBookJsonStr: this.state.duokanBookJsonStr,

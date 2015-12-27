@@ -36,16 +36,23 @@ var Home = React.createClass({
     allBook.count = this.state.dbJson.count + this.state.dkJson.count + this.state.stJson.count;
     allBook.items = this.state.dbJson.items.concat(this.state.dkJson.items).concat(this.state.stJson.count);
     this.setState({allBook:allBook});
+
+
+
   },
 
   componentWillMount: function()
   {
     console.log("componentWillMount");
+
+
     this.eventEmitter = new EventEmitter();
   },
 
   componentDidMount: function()
   {
+
+
     console.log("componentDidMount");
     // this.addListenerOn(this.props.events, 'addOneNewBook', this._update);
     this.eventEmitter.addListener('addOneNewBook', this._addOneNewBook);
@@ -64,6 +71,20 @@ var Home = React.createClass({
 
   loadData: function()
   {
+    // TODO 没有更新
+    console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+    // this.props.navigator.replace({
+    //   title: '主页',
+    //   component: Home,
+    //   rightButtonIcon: require('./image/iconfont-saoma.png'),
+    //   onRightButtonPress: this._onPressButton,
+    //   passProps: {
+    //     doubanBookJsonStr: this.state.doubanBookJsonStr,
+    //     duokanBookJsonStr: this.state.duokanBookJsonStr,
+    //     shitiBookJsonStr: this.state.shitiBookJsonStr,
+    //   },
+    // });
+
     var stJson;
     if(this.props.shitiBookJsonStr === undefined)
       stJson = Common.getEmptyBookJson();
@@ -154,6 +175,7 @@ var Home = React.createClass({
   },
 
   getInitialState: function() {
+
     return({
         allBook: Common.getEmptyBookJson(),
         dbJson: Common.getEmptyBookJson(),
@@ -177,6 +199,7 @@ var Home = React.createClass({
       // onLeftButtonPress: () => console.log("hehhe") ,
     });
   },
+
 
   _onLoginDuokan: function() {
     var DuokanAccount = require('./DuokanAccount');
@@ -338,10 +361,13 @@ var styles = StyleSheet.create({
     // marginBottom: 4,
   },
   buttonContainer: {
-    paddingLeft:100,
-    width:100,
     margin: 8,
     backgroundColor: 'transparent',
+    flex: 1,
+    position: 'absolute',
+    right: 0,
+    top: 0,
+    opacity: 0.5,
   },
   buttonText: {
     fontSize: 10,
