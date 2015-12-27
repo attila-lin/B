@@ -5,6 +5,10 @@ var TimerMixin = require('react-timer-mixin');
 
 var EventEmitter = require('EventEmitter');
 
+const { BlurView } = require('react-native-blur');
+const { VibrancyView } = require('react-native-blur');
+
+
 var {
   AppRegistry,
   StyleSheet,
@@ -83,20 +87,29 @@ var Detail = React.createClass({
     this.props.navigator.popN(2);
   },
 
+  // <Image source={{uri:this.state.bookjson.images.large}} style={styles.logo}>
+  //     <VibrancyView blurType="light" style={styles.blur}>
+  //       <Text>Hi, I am a tiny menu item</Text>
+  //     </VibrancyView>
+  // </Image>
+
   render: function() {
 
     if(this.state.bookjson != ""){
+      console.log(this.state.bookjson);
       return (
         <View style={styles.container}>
-          <Text style={styles.welcome}>{this.state.bookjson.title}</Text>
-            <Image
-              style={styles.logo}
-              source = {{uri:this.state.bookjson.images.medium}}
-              />
-            <Text style={styles.welcome}>{this.state.bookjson.author}</Text>
+            <View style={styles.coverContainer}>
+              <Image
+                style={styles.logo}
+                source = {{uri:this.state.bookjson.images.large}}
+                />
+            </View>
+            <Text style={styles.title}>{this.state.bookjson.title}</Text>
+            <Text style={styles.author}>{this.state.bookjson.author}/{this.state.bookjson.publisher}/{this.state.bookjson.pubdate}</Text>
           <TouchableHighlight onPress={this._onPressButton}>
             <Image style={styles.button}>
-              <Text>添加到已购</Text>
+              <Text style={styles.buttonText}>添加到已购</Text>
             </Image>
           </TouchableHighlight>
         </View>
@@ -105,12 +118,7 @@ var Detail = React.createClass({
     else {
       return (
         <View style={styles.container}>
-          <Text style={styles.welcome}>书的内容</Text>
-          <TouchableHighlight onPress={this._onPressButton}>
-            <Image
-              style={styles.button}
-            />
-          </TouchableHighlight>
+          <Text style={styles.welcome}>loading</Text>
         </View>
       )
     }
@@ -123,25 +131,52 @@ var styles = StyleSheet.create({
     marginTop: 64,
     flex: 1,
   },
-  welcome: {
+  title: {
     fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
+    margin: 4,
+    marginLeft: 8,
+    textAlign: 'left',
+    color: '#002B36',
+  },
+  author: {
+    fontSize: 15,
+    margin: 4,
+    marginLeft: 8,
+    textAlign: 'left',
+    color: '#a5a7a7',
   },
   button: {
-    height: 36,
-    flexDirection: 'row',
+    height: 20,
     backgroundColor: '#48BBEC',
     borderColor: '#48BBEC',
     borderWidth: 1,
     borderRadius: 8,
     alignSelf: 'stretch',
-    justifyContent: 'center'
+    justifyContent: 'center',
+    width: 80,
   },
   logo: {
     width: 140,
     height: 231,
-  }
+    alignSelf: 'center',
+    // margin: 8,
+  },
+  blur: {
+    flex: 1,
+    justifyContent: 'center',
+    backgroundColor: 'transparent',
+  },
+  coverContainer: {
+    backgroundColor: 'white',
+    justifyContent: 'center',
+    borderBottomColor: '#eaecea',
+    borderBottomWidth: 2,
+  },
+  buttonText: {
+    fontSize: 10,
+    textAlign: 'center',
+    margin: 2,
+  },
 });
 
 module.exports = Detail;
