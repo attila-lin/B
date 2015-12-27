@@ -99,7 +99,6 @@ var Detail = React.createClass({
               style={styles.button}
             />
           </TouchableHighlight>
-
         </View>
       )
     }

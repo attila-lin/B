@@ -1,4 +1,7 @@
 # B
+
+[![GitHub license](https://img.shields.io/github/license/mashape/apistatus.svg)](https://github.com/whatever1992/B/blob/master/LICENSE)
+
 据说一个好的项目一定要有donate link，先扔一个
 
 ![donate](./doc/alipay.png)
