@@ -12,9 +12,13 @@ var SearchBar = require('react-native-search-bar');
 
 var Swipeout = require('react-native-swipeout');
 
+var Overlay = require('react-native-overlay');
+var BlurView = require('react-native-blur').BlurView;
+
 var swipeoutBtns = [
   {
-    text: '删除'
+    text: '删除',
+    backgroundColor: '#FF635B',
   }
 ];
 
@@ -30,6 +34,7 @@ var {
   Image,
   ListView,
   AsyncStorage,
+  ActivityIndicatorIOS,
 } = React;
 
 var REQUEST_URL = "http://www.duokan.com/store/v0/payment/book/list";
@@ -229,6 +234,19 @@ var Home = React.createClass({
     });
   },
 
+  renderSearchView: function()
+  {
+    return (
+      <Overlay isVisible={true}>
+        <BlurView style={styles.blurBackground} blurType="dark">
+          <ActivityIndicatorIOS
+            size="large"
+            animating={true}
+            style={styles.spinner} />
+        </BlurView>
+      </Overlay>
+    );
+  },
 
 
   renderLoadingView: function() {
@@ -254,7 +272,6 @@ var Home = React.createClass({
         <SearchBar
         	ref='searchBar'
         	placeholder='Search'
-
       	/>
         <View style={styles.textContainer}>
           <Text style={styles.welcome}>你共拥有{this.state.allBook.count}本书</Text>
@@ -291,7 +308,7 @@ var Home = React.createClass({
 
   renderBook: function(book) {
     return (
-      <Swipeout right={swipeoutBtns}>
+      <Swipeout right={swipeoutBtns} autoClose={true}>
         <View style={styles.listContainer}>
           <View style={styles.coverContainer}>
             <Image
@@ -390,7 +407,10 @@ var styles = StyleSheet.create({
     textAlign: 'center',
     margin: 2,
   },
-
+  blurBackground: {
+    flex: 1,
+    justifyContent: 'center',
+  },
 });
 
 module.exports = Home;
