@@ -8,6 +8,7 @@ var Subscribable = require('Subscribable');
 var TimerMixin = require('react-timer-mixin');
 
 var icloud = require('react-native-icloud-sync');
+var SearchBar = require('react-native-search-bar');
 
 var {
   AppRegistry,
@@ -234,7 +235,9 @@ var Home = React.createClass({
       </View>
     );
   },
-
+  // onChangeText={}
+  // onSearchButtonPress={}
+  // onCancelButtonPress={}
   render: function() {
     console.log("render",this.state.loading);
     if(this.state.loading){
@@ -243,6 +246,11 @@ var Home = React.createClass({
 
     return (
       <View style={styles.container}>
+        <SearchBar
+        	ref='searchBar'
+        	placeholder='Search'
+
+      	/>
         <View style={styles.textContainer}>
           <Text style={styles.welcome}>你共拥有{this.state.allBook.count}本书</Text>
           <Text style={styles.Commit}>其中多看阅读中{this.state.dkJson.count}本书</Text>
@@ -361,6 +369,7 @@ var styles = StyleSheet.create({
     // marginBottom: 4,
   },
   buttonContainer: {
+    marginTop: 50,
     margin: 8,
     backgroundColor: 'transparent',
     flex: 1,

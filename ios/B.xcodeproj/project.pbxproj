@@ -24,6 +24,7 @@
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
 		9C16FB761C2C2FBE00B63695 /* libRCTCamera.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C16FB6C1C2C2F2700B63695 /* libRCTCamera.a */; };
 		9C16FB931C2E77D400B63695 /* libRNFS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C16FB921C2E779400B63695 /* libRNFS.a */; };
+		9C3EF7AA1C2FF43E008FE442 /* libRNSearchBar.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C3EF7A91C2FF430008FE442 /* libRNSearchBar.a */; };
 		9C7B466C1C2FAA2F0074201D /* libRNiCloudSync.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C7B46691C2FA9C50074201D /* libRNiCloudSync.a */; };
 		D7EF81B0D92F4081BEB109F9 /* libRNBlur.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C754D0498DAE4AD9967F0F8E /* libRNBlur.a */; };
 /* End PBXBuildFile section */
@@ -127,6 +128,13 @@
 			remoteGlobalIDString = A68BD7BC1BC31318005F02DF;
 			remoteInfo = RNBlur;
 		};
+		9C3EF7A81C2FF430008FE442 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9C3EF7A41C2FF42F008FE442 /* RNSearchBar.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 134814201AA4EA6300B7C361;
+			remoteInfo = RNSearchBar;
+		};
 		9C7B46681C2FA9C50074201D /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 9C7B46631C2FA9C50074201D /* RNiCloudSync.xcodeproj */;
@@ -168,6 +176,7 @@
 		832341B01AAA6A8300B99B32 /* RCTText.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTText.xcodeproj; path = "../node_modules/react-native/Libraries/Text/RCTText.xcodeproj"; sourceTree = "<group>"; };
 		9C16FB661C2C2F2700B63695 /* RCTCamera.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTCamera.xcodeproj; path = "../node_modules/react-native-camera/ios/RCTCamera.xcodeproj"; sourceTree = "<group>"; };
 		9C16FB8D1C2E779400B63695 /* RNFS.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNFS.xcodeproj; path = "../node_modules/react-native-fs/RNFS.xcodeproj"; sourceTree = "<group>"; };
+		9C3EF7A41C2FF42F008FE442 /* RNSearchBar.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNSearchBar.xcodeproj; path = "../node_modules/react-native-search-bar/RNSearchBar.xcodeproj"; sourceTree = "<group>"; };
 		9C7B46631C2FA9C50074201D /* RNiCloudSync.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNiCloudSync.xcodeproj; path = "../node_modules/react-native-icloud-sync/RNiCloudSync.xcodeproj"; sourceTree = "<group>"; };
 		C754D0498DAE4AD9967F0F8E /* libRNBlur.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNBlur.a; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -184,6 +193,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9C3EF7AA1C2FF43E008FE442 /* libRNSearchBar.a in Frameworks */,
 				9C7B466C1C2FAA2F0074201D /* libRNiCloudSync.a in Frameworks */,
 				9C16FB931C2E77D400B63695 /* libRNFS.a in Frameworks */,
 				9C16FB761C2C2FBE00B63695 /* libRCTCamera.a in Frameworks */,
@@ -310,6 +320,7 @@
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				9C3EF7A41C2FF42F008FE442 /* RNSearchBar.xcodeproj */,
 				9C7B46631C2FA9C50074201D /* RNiCloudSync.xcodeproj */,
 				9C16FB8D1C2E779400B63695 /* RNFS.xcodeproj */,
 				9C16FB661C2C2F2700B63695 /* RCTCamera.xcodeproj */,
@@ -377,6 +388,14 @@
 			isa = PBXGroup;
 			children = (
 				9C3EF7991C2FE779008FE442 /* libRNBlur.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		9C3EF7A51C2FF42F008FE442 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				9C3EF7A91C2FF430008FE442 /* libRNSearchBar.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -515,6 +534,10 @@
 					ProductGroup = 9C7B46641C2FA9C50074201D /* Products */;
 					ProjectRef = 9C7B46631C2FA9C50074201D /* RNiCloudSync.xcodeproj */;
 				},
+				{
+					ProductGroup = 9C3EF7A51C2FF42F008FE442 /* Products */;
+					ProjectRef = 9C3EF7A41C2FF42F008FE442 /* RNSearchBar.xcodeproj */;
+				},
 			);
 			projectRoot = "";
 			targets = (
@@ -614,6 +637,13 @@
 			fileType = archive.ar;
 			path = libRNBlur.a;
 			remoteRef = 9C3EF7981C2FE779008FE442 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		9C3EF7A91C2FF430008FE442 /* libRNSearchBar.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRNSearchBar.a;
+			remoteRef = 9C3EF7A81C2FF430008FE442 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		9C7B46691C2FA9C50074201D /* libRNiCloudSync.a */ = {
