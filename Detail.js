@@ -5,8 +5,8 @@ var TimerMixin = require('react-timer-mixin');
 
 var EventEmitter = require('EventEmitter');
 
-const { BlurView } = require('react-native-blur');
-const { VibrancyView } = require('react-native-blur');
+// const { BlurView } = require('react-native-blur');
+// const { VibrancyView } = require('react-native-blur');
 
 
 var {

@@ -24,6 +24,7 @@
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
 		9C16FB761C2C2FBE00B63695 /* libRCTCamera.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C16FB6C1C2C2F2700B63695 /* libRCTCamera.a */; };
 		9C16FB931C2E77D400B63695 /* libRNFS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C16FB921C2E779400B63695 /* libRNFS.a */; };
+		9C361BA41C2FFF9D00A05982 /* ios in Resources */ = {isa = PBXBuildFile; fileRef = 9C361BA31C2FFF9D00A05982 /* ios */; };
 		9C3EF7AA1C2FF43E008FE442 /* libRNSearchBar.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C3EF7A91C2FF430008FE442 /* libRNSearchBar.a */; };
 		9C7B466C1C2FAA2F0074201D /* libRNiCloudSync.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C7B46691C2FA9C50074201D /* libRNiCloudSync.a */; };
 		D7EF81B0D92F4081BEB109F9 /* libRNBlur.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C754D0498DAE4AD9967F0F8E /* libRNBlur.a */; };
@@ -176,6 +177,7 @@
 		832341B01AAA6A8300B99B32 /* RCTText.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTText.xcodeproj; path = "../node_modules/react-native/Libraries/Text/RCTText.xcodeproj"; sourceTree = "<group>"; };
 		9C16FB661C2C2F2700B63695 /* RCTCamera.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTCamera.xcodeproj; path = "../node_modules/react-native-camera/ios/RCTCamera.xcodeproj"; sourceTree = "<group>"; };
 		9C16FB8D1C2E779400B63695 /* RNFS.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNFS.xcodeproj; path = "../node_modules/react-native-fs/RNFS.xcodeproj"; sourceTree = "<group>"; };
+		9C361BA31C2FFF9D00A05982 /* ios */ = {isa = PBXFileReference; lastKnownFileType = folder; name = ios; path = "../node_modules/react-native-blur/ios"; sourceTree = "<group>"; };
 		9C3EF7A41C2FF42F008FE442 /* RNSearchBar.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNSearchBar.xcodeproj; path = "../node_modules/react-native-search-bar/RNSearchBar.xcodeproj"; sourceTree = "<group>"; };
 		9C7B46631C2FA9C50074201D /* RNiCloudSync.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNiCloudSync.xcodeproj; path = "../node_modules/react-native-icloud-sync/RNiCloudSync.xcodeproj"; sourceTree = "<group>"; };
 		C754D0498DAE4AD9967F0F8E /* libRNBlur.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNBlur.a; sourceTree = "<group>"; };
@@ -320,6 +322,7 @@
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				9C361BA31C2FFF9D00A05982 /* ios */,
 				9C3EF7A41C2FF42F008FE442 /* RNSearchBar.xcodeproj */,
 				9C7B46631C2FA9C50074201D /* RNiCloudSync.xcodeproj */,
 				9C16FB8D1C2E779400B63695 /* RNFS.xcodeproj */,
@@ -674,6 +677,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9C361BA41C2FFF9D00A05982 /* ios in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
 			);

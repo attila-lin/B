@@ -10,6 +10,14 @@ var TimerMixin = require('react-timer-mixin');
 var icloud = require('react-native-icloud-sync');
 var SearchBar = require('react-native-search-bar');
 
+var Swipeout = require('react-native-swipeout');
+
+var swipeoutBtns = [
+  {
+    text: '删除'
+  }
+];
+
 var {
   AppRegistry,
   StyleSheet,
@@ -37,9 +45,6 @@ var Home = React.createClass({
     allBook.count = this.state.dbJson.count + this.state.dkJson.count + this.state.stJson.count;
     allBook.items = this.state.dbJson.items.concat(this.state.dkJson.items).concat(this.state.stJson.count);
     this.setState({allBook:allBook});
-
-
-
   },
 
   componentWillMount: function()
@@ -286,18 +291,20 @@ var Home = React.createClass({
 
   renderBook: function(book) {
     return (
-      <View style={styles.listContainer}>
-        <View style={styles.coverContainer}>
-          <Image
-            source={{uri: book.cover}}
-            style={styles.cover}
-          />
+      <Swipeout right={swipeoutBtns}>
+        <View style={styles.listContainer}>
+          <View style={styles.coverContainer}>
+            <Image
+              source={{uri: book.cover}}
+              style={styles.cover}
+            />
+          </View>
+          <View style={styles.rightContainer}>
+            <Text style={styles.title}>{book.title}</Text>
+            <Text style={styles.author}>{book.authors}</Text>
+          </View>
         </View>
-        <View style={styles.rightContainer}>
-          <Text style={styles.title}>{book.title}</Text>
-          <Text style={styles.author}>{book.authors}</Text>
-        </View>
-      </View>
+      </Swipeout>
     );
   },
 });
