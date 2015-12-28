@@ -15,6 +15,9 @@ var Swipeout = require('react-native-swipeout');
 var Overlay = require('react-native-overlay');
 var BlurView = require('react-native-blur').BlurView;
 
+var ActionButton = require('react-native-action-button');
+var Icon = require('react-native-vector-icons/Ionicons');
+
 var swipeoutBtns = [
   {
     text: '删除',
@@ -40,6 +43,34 @@ var {
 var REQUEST_URL = "http://www.duokan.com/store/v0/payment/book/list";
 
 var Common = require('./Common');
+
+var { Component, Stylesheet, View, } = React;
+
+class ActionBtn extends Component {
+  constructor(props) {
+    super(props);
+  }
+
+  render() {
+    var doubanIcon = require('./image/iconfont-douban.png');
+
+    return (
+      <View style={{flex:1, backgroundColor:'transparent'}}>
+        <ActionButton buttonColor="rgba(231,76,60,1)" spacing={12} >
+          <ActionButton.Item buttonColor='#9b59b6' title="登录豆瓣" onPress={() => console.log("notes tapped!")}>
+            <Image style={styles.actionButtonIcon} source={doubanIcon}/>
+          </ActionButton.Item>
+          <ActionButton.Item buttonColor='#3498db' title="登录多看" onPress={() => {}}>
+            <Image style={styles.actionButtonIcon} source={doubanIcon}/>
+          </ActionButton.Item>
+          <ActionButton.Item buttonColor='#1abc9c' title="我长的帅不帅" onPress={() => {}}>
+            <Image style={styles.actionButtonIcon} source={doubanIcon}/>
+          </ActionButton.Item>
+        </ActionButton>
+      </View>
+    );
+  }
+}
 
 var Home = React.createClass({
   mixins: [TimerMixin],
@@ -249,6 +280,7 @@ var Home = React.createClass({
   },
 
 
+
   renderLoadingView: function() {
     return (
       <View style={styles.container}>
@@ -279,6 +311,7 @@ var Home = React.createClass({
           <Text style={styles.Commit}>其中豆瓣阅读中{this.state.dbJson.count}本书</Text>
           <Text style={styles.Commit}>其中实体书中{this.state.stJson.count}本书</Text>
         </View>
+
         <ListView
           dataSource={this.state.dataSource}
           renderRow={this.renderBook}
@@ -301,6 +334,7 @@ var Home = React.createClass({
             </Image>
           </TouchableHighlight>
         </View>
+        <ActionBtn />
 
       </View>
     );
@@ -400,7 +434,18 @@ var styles = StyleSheet.create({
     position: 'absolute',
     right: 0,
     top: 0,
-    opacity: 0.5,
+    // opacity: 0.5,
+  },
+  actionbuttonContainer: {
+    // backgroundColor: '#a5a7a7',
+    // backgroundColor: 'transparent',
+    // backgroundColor:'rgba(0,0,0,0)',
+    // flex: 1,
+    // position: 'absolute',
+    // right: 0,
+    // bottom: 0,
+    // opacity: 0.5,
+    justifyContent: 'flex-start',
   },
   buttonText: {
     fontSize: 10,
@@ -411,6 +456,13 @@ var styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
   },
+  actionButtonIcon: {
+    // fontSize: 20,
+    // flex:1,
+    height: 22,
+    // color: 'white',
+  },
+
 });
 
 module.exports = Home;
