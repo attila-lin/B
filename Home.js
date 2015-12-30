@@ -72,6 +72,27 @@ class ActionBtn extends Component {
   }
 }
 
+var LoadingOverlay = React.createClass({
+  getDefaultProps(): StateObject {
+    return {
+      isVisible: false
+    }
+  },
+
+  render(): ReactElement {
+    return (
+      <Overlay isVisible={this.props.isVisible}>
+        <BlurView style={styles.background} blurType="dark">
+          <ActivityIndicatorIOS
+            size="large"
+            animating={true}
+            style={styles.spinner} />
+        </BlurView>
+      </Overlay>
+    );
+  }
+});
+
 var Home = React.createClass({
   mixins: [TimerMixin],
 
@@ -81,6 +102,11 @@ var Home = React.createClass({
     allBook.count = this.state.dbJson.count + this.state.dkJson.count + this.state.stJson.count;
     allBook.items = this.state.dbJson.items.concat(this.state.dkJson.items).concat(this.state.stJson.count);
     this.setState({allBook:allBook});
+  },
+
+  _updateDisplayBook: function()
+  {
+
   },
 
   componentWillMount: function()
@@ -152,12 +178,14 @@ var Home = React.createClass({
     this.setState({dkJson:dkJson});
 
     this._updateAllBook();
+    // 初始的时候显示所有书籍
+    this.setState({displayBook:this.state.allBook});
 
     var dataSource = new ListView.DataSource({
       rowHasChanged: (row1, row2) => row1 !== row2,
     });
 
-    var items = this.state.allBook.items;
+    var items = this.state.displayBook.items;
 
     var itemsArray = [];
     for(var x in items){
@@ -220,6 +248,7 @@ var Home = React.createClass({
 
     return({
         allBook: Common.getEmptyBookJson(),
+        displayBook: Common.getEmptyBookJson(),
         dbJson: Common.getEmptyBookJson(),
         dkJson: Common.getEmptyBookJson(),
         stJson: Common.getEmptyBookJson(),
@@ -265,19 +294,7 @@ var Home = React.createClass({
     });
   },
 
-  renderSearchView: function()
-  {
-    return (
-      <Overlay isVisible={true}>
-        <BlurView style={styles.blurBackground} blurType="dark">
-          <ActivityIndicatorIOS
-            size="large"
-            animating={true}
-            style={styles.spinner} />
-        </BlurView>
-      </Overlay>
-    );
-  },
+
 
 
 
@@ -311,12 +328,15 @@ var Home = React.createClass({
           <Text style={styles.Commit}>其中豆瓣阅读中{this.state.dbJson.count}本书</Text>
           <Text style={styles.Commit}>其中实体书中{this.state.stJson.count}本书</Text>
         </View>
+        {/*<SearchView />*/}
+        {/*<LoadingOverlay isVisible={true} />*/}
 
         <ListView
           dataSource={this.state.dataSource}
           renderRow={this.renderBook}
           style={styles.listView}
         />
+
         <View style={styles.buttonContainer}>
           <TouchableHighlight onPress={this._onPressButton}>
             <Image style={styles.button}>
@@ -334,8 +354,7 @@ var Home = React.createClass({
             </Image>
           </TouchableHighlight>
         </View>
-        <ActionBtn />
-
+        {/*<ActionBtn />*/}
       </View>
     );
   },
@@ -461,6 +480,10 @@ var styles = StyleSheet.create({
     // flex:1,
     height: 22,
     // color: 'white',
+  },
+  background: {
+    flex: 1,
+    justifyContent: 'center',
   },
 
 });

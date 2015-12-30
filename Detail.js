@@ -5,7 +5,7 @@ var TimerMixin = require('react-timer-mixin');
 
 var EventEmitter = require('EventEmitter');
 
-// const { BlurView } = require('react-native-blur');
+const { BlurView } = require('react-native-blur');
 // const { VibrancyView } = require('react-native-blur');
 
 
@@ -101,12 +101,18 @@ var Detail = React.createClass({
       console.log(this.state.bookjson);
       return (
         <View style={styles.container}>
-            <View style={styles.coverContainer}>
-              <Image
-                style={styles.logo}
-                source = {{uri:this.state.bookjson.images.large}}
-                />
-            </View>
+          <View style={styles.background}>
+            <Image source = {{uri:this.state.bookjson.images.large}} style={styles.bigLogo}>
+              <BlurView blurType="light" style={styles.blur}>
+                <View style={styles.coverContainer}>
+                  <Image
+                    style={styles.logo}
+                    source = {{uri:this.state.bookjson.images.large}}
+                    />
+                </View>
+              </BlurView>
+            </Image>
+          </View>
             <Text style={styles.title}>{this.state.bookjson.title}</Text>
             <Text style={styles.author}>{this.state.bookjson.author}/{this.state.bookjson.publisher}/{this.state.bookjson.pubdate}</Text>
           <TouchableHighlight onPress={this._onPressButton}>
@@ -132,6 +138,9 @@ var styles = StyleSheet.create({
     backgroundColor: 'white',
     marginTop: 64,
     flex: 1,
+  },
+  background: {
+    height: 250,
   },
   title: {
     fontSize: 20,
@@ -162,6 +171,10 @@ var styles = StyleSheet.create({
     height: 231,
     alignSelf: 'center',
     // margin: 8,
+  },
+  bigLogo: {
+    width: 300,
+    height: 600,
   },
   blur: {
     flex: 1,
