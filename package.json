@@ -10,6 +10,7 @@
     "react-dom": "^0.14.3",
     "react-native": "^0.17.0",
     "react-native-action-button": "git+https://github.com/nvladimiroff/react-native-action-button.git",
+    "react-native-activity-view": "^0.2.7",
     "react-native-blur": "^0.7.6",
     "react-native-camera": "^0.3.8",
     "react-native-fs": "^1.1.0",

@@ -8,6 +8,7 @@ var EventEmitter = require('EventEmitter');
 const { BlurView } = require('react-native-blur');
 // const { VibrancyView } = require('react-native-blur');
 
+var ActivityView = require('react-native-activity-view');
 
 var {
   AppRegistry,
@@ -89,6 +90,15 @@ var Detail = React.createClass({
     this.props.navigator.popN(2);
   },
 
+  _onPressShareButton : function()
+  {
+    ActivityView.show({
+      text: '这个应用好棒',
+      url: '', // 哎 还木有
+      imageUrl: '', // 哎 还木有
+    });
+  },
+
   // <Image source={{uri:this.state.bookjson.images.large}} style={styles.logo}>
   //     <VibrancyView blurType="light" style={styles.blur}>
   //       <Text>Hi, I am a tiny menu item</Text>
@@ -118,6 +128,11 @@ var Detail = React.createClass({
           <TouchableHighlight onPress={this._onPressButton}>
             <Image style={styles.button}>
               <Text style={styles.buttonText}>添加到已购</Text>
+            </Image>
+          </TouchableHighlight>
+          <TouchableHighlight onPress={this._onPressShareButton}>
+            <Image style={styles.button}>
+              <Text style={styles.buttonText}>分享</Text>
             </Image>
           </TouchableHighlight>
         </View>
